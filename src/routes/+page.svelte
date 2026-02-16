@@ -1,0 +1,26 @@
+
+<header>
+    <img src="/images/title.png" alt="Rings of power logo" />
+</header>
+
+<nav>
+    <ul>
+        <li>
+            <a href="/">HOME</a>
+        </li>
+        <li>
+            <a href="/characters">CHARACTERS</a>
+        </li>
+    </ul>
+</nav>
+
+<main>
+    <img src="/images/homeimage.jpg" alt="Rings of power - splash image" />
+</main>
+
+<footer>
+    <hr>
+    <img src="/images/prime_logo.png" alt="Prime logo" />
+    <br>
+    The Rings of Power &copy; 2024
+</footer>
