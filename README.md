@@ -424,7 +424,7 @@ Do the following:
    </footer>
    ```
 
-  - and the beginning of our characters page (`/routes/characters/+page.svelte') looks like this;
+  - and the beginning of our characters page (`/routes/characters/+page.svelte`) looks like this;
 
      ````html
      <script>
@@ -502,7 +502,7 @@ Do the following:
 
 The final step to complete the upgrade of our project to be a SvelteKit project is to add the CSS for styling the row and column content in the characters page
 
-So add the following CSS rules (taken from `/css/main.css`) to the end of Svelte characters page (`/routes/characters/+page.svelte'):
+So add the following CSS rules (taken from `/css/main.css`) to the end of Svelte characters page (`/routes/characters/+page.svelte`):
 
    ```html
    <style>
