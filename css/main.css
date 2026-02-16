@@ -6,27 +6,12 @@ body {
     background-color: #a07a21;
 }
 
-header {
-    text-align: center;
-    padding-bottom: 1rem;
-}
-
-header img {
-    width: 40%;
-}
 
 main img {
     width: 100%;
 }
 
 
-footer {
-    text-align: center;
-}
-
-footer img{
-    width: 5%;
-}
 
 .row {
     padding: 0.5rem;

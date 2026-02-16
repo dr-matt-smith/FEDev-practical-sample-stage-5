@@ -97,7 +97,7 @@ first, let's make this a SvelteKit project
    </footer>
    ```
 
-1. in `<nav>` change the URL of the characters page link to just `/characters`"
+1. in `<nav>` change the URL of the characters page link to just `/characters`:
 
    ```html
       <nav>
@@ -134,8 +134,6 @@ first, let's make this a SvelteKit project
       </ul>
    </nav>
    
-   
-   
    <main>
       <div class="row">
          <div class="col4">
@@ -170,7 +168,6 @@ first, let's make this a SvelteKit project
             </p>
          </div>
       </div>
-   
    
       <div class="row">
          <div class="col4">
@@ -250,15 +247,294 @@ first, let's make this a SvelteKit project
       </div>
    </main>
    
-   
    <footer>
       <hr>
       <img src="/images/prime_logo.png" alt="Prime logo" />
       <br>
       The Rings of Power &copy; 2024
    </footer>
-```
+   ```
    
-1. again, in `/routes/characters/+page.svelte` change 1. in `<nav>` change the URL of the characters page link to just `/characters`"
+1. again, in `/routes/characters/+page.svelte` in element `<nav>` change the URL of the characters page link to just `/characters`:
+   - you should now have working links between your two pages (but no CSS yet ...)
 
-you should now have working links between your two pages (but no CSS yet ...)
+## Implement global styles in `/routes/+layout.svelte`
+
+We want all the pages in our website to have the same body.
+
+We can put global styles into `/routes/+layout.svelte`.
+
+Body is a bit special, since each Svelte page creates content for inside the body. However, Svelte gives us a special style syntax for global changes to the body element: `:global(body)`
+
+
+Learn about global styles rules for Svelte at:
+   - https://svelte.dev/docs/svelte/global-styles
+
+The default content of `/routes/+layout.svelte` is a follows:
+
+```html
+<script>
+   import './layout.css';
+   import favicon from '$lib/assets/favicon.svg';
+
+   let { children } = $props();
+</script>
+
+<svelte:head><link rel="icon" href={favicon} /></svelte:head>
+{@render children()}
+```
+
+So we can simply add a new style rule for all body elements of our website as follows:
+```html
+<script>
+   import './layout.css';
+   import favicon from '$lib/assets/favicon.svg';
+
+   let { children } = $props();
+</script>
+
+<svelte:head><link rel="icon" href={favicon} /></svelte:head>
+{@render children()}
+
+<style>
+   :global(body) {
+      background: url("/images/background.png") no-repeat center center fixed;
+      background-size: cover;
+
+      color: white;
+      background-color: #a07a21;
+   }
+</style>
+```
+
+REMEMEBER: Style rules go inside a `<style>` element, usually at the end of a Svelte file.
+
+## setting values for the HTML `<head>` in Svelte(Kit)
+
+The basic HTML elements in a `.svelte` file are for the body of a page. If we want to set values for the head, we need to use `<svelte:head>`.
+
+So to set the title for the home page (`/routes/+page.svelte`):
+
+   ```html
+   <svelte:head>
+        <title>Rings of power - home page</title>
+   </svelte:head>
+   ```
+
+Do the same to set the title for the characters page (`/routes/characters/+page.svelte`):
+
+Learn more about `<svelte:head>` at:
+   - https://svelte.dev/docs/svelte/svelte-head
+
+## Making the navigation a component
+
+We can create reusable components in `/lib/components`. A common component for most web sites is a navigation bar.
+
+Do the following:
+
+1. Create folder `/lib/components` (if it doesn't already exist)
+
+1. Create Svelte file `Nav.svelte` (NOTE the capital first letter) in this folder (`/lib/components/Nav.svete`):
+
+1. Copy the HTML for the navigation bar into our new file, also copy the CSS rules from `/css/nav.css`
+   - so `/lib/components/Nav.svete` should now contain:
+   
+   ```html 
+   <nav>
+      <ul>
+         <li>
+            <a href="/">HOME</a>
+         </li>
+         <li>
+            <a href="/characters">CHARACTERS</a>
+         </li>
+      </ul>
+   </nav>
+   
+   <style>
+      nav {
+         display: flex;
+   
+         background-color: black;
+         margin-bottom: 1rem;
+      }
+   
+      nav ul {
+         list-style-type: none;
+         margin: 0 auto;
+         padding: 1rem;
+      }
+   
+      nav ul li {
+         display: inline;
+      }
+   
+      nav a {
+         text-decoration: none;
+         /*color: gold;*/
+         color: #9e8545;
+         text-align: center;
+         width: 10rem;
+         padding: 1rem;
+      }
+   
+      nav a:hover {
+         background: url("/images/hover.png") center center;
+         background-size: cover;
+      }
+   </style>
+   ```
+   
+1. Now for our Svelte index (`/routes/+page.svelte') and characters page (`/routes/characters/+page.svelte'), we need to import and use this component.
+   - add a `<script>` section at the begining of the code for both these pages, to import out Nav component
+
+   ```html
+   <script>
+      import Nav from '$lib/components/Nav.svelte';
+   </script>
+   ```
+
+1. we can now use this component in our code. Write `<Nav />` where our `<nav>` navigation bar code used to be
+   - so the code for our index page (`/routes/+page.svelte') now looks as follows:
+      
+   ```html
+   <script>
+      import Nav from '$lib/components/Nav.svelte';
+   </script>
+      
+   <svelte:head>
+      <title>Rings of power - home page</title>
+   </svelte:head>
+      
+   <header>
+      <img src="/images/title.png" alt="Rings of power logo" />
+   </header>
+      
+   <Nav />
+      
+   <main>
+      <img src="/images/homeimage.jpg" alt="Rings of power - splash image" />
+   </main>
+      
+   <footer>
+      <hr>
+      <img src="/images/prime_logo.png" alt="Prime logo" />
+      <br>
+      The Rings of Power &copy; 2024
+   </footer>
+   ```
+
+  - and the beginning of our characters page (`/routes/characters/+page.svelte') looks like this;
+
+     ````html
+     <script>
+         import Nav from '$lib/components/Nav.svelte';
+     </script>
+      
+     <svelte:head>
+     <title>Rings of power - characters page</title>
+     </svelte:head>
+      
+     <header>
+         <img src="/images/title.png" alt="Rings of power logo" />
+     </header>
+      
+     <Nav />
+      
+     <main>
+         <div class="row">
+             <div class="col4">
+                 <h3>
+                     GALADRIEL
+                 </h3>
+                 <p>
+     ```
+
+  1. in the same way as above, we can create a `Header` and `Footer` Svelte components, combining their HTML and CSS:
+     - so our header (`/lib/components/Header.svelte`) contains:
+
+     ```html
+     <header>
+        <img src="/images/title.png" alt="Rings of power logo" />
+     </header>
+   
+     <style>
+        header {
+           text-align: center;
+           padding-bottom: 1rem;
+        }
+   
+        header img {
+           display: inline-block;
+           width: 40%;
+        }
+     </style>
+     ```
+
+   - and so our footer (`/lib/components/Footer.svelte`) contains:
+
+      ```html
+      <script>
+      </script>
+      
+      <footer>
+         <hr>
+         <img src="/images/prime_logo.png" alt="Prime logo" />
+         <br>
+         The Rings of Power &copy; 2024
+      </footer>
+      
+      <style>
+         footer {
+            text-align: center;
+            padding: 1rem;
+         }
+      
+         footer img {
+            display: inline-block;
+            width: 5%;
+         }
+      </style>
+      ```
+  - NOTE: I had to add `display: inline-block` rules for both the header and footer, to get the images to center ...
+
+## Styling the characters page content
+
+The final step to complete the upgrade of our project to be a SvelteKit project is to add the CSS for styling the row and column content in the characters page
+
+So add the following CSS rules (taken from `/css/main.css`) to the end of Svelte characters page (`/routes/characters/+page.svelte'):
+
+   ```html
+   <style>
+      .row {
+         padding: 0.5rem;
+         display: flex;
+      }
+   
+      .col4 {
+         width: 25%;
+         padding: 0.2rem;
+         text-align: justify;
+      }
+   
+      .col4 h3 {
+         letter-spacing: 0.4rem;
+      }
+   
+      .col4 p, .col4 h3 {
+         padding: 0 1.5rem;
+         font-size: 1cqw;
+      }
+   
+      .rounded_left {
+         border-radius: 20% 0 0 20%;
+      }
+   
+   
+      .rounded_right {
+         border-radius: 0 20% 20% 0;
+      }
+   </style>
+   ```
+
+

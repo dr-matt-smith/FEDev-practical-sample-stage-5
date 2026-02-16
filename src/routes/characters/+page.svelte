@@ -1,20 +1,16 @@
+<script>
+    import Nav from '$lib/components/Nav.svelte';
+    import Header from '$lib/components/Header.svelte';
+    import Footer from '$lib/components/Footer.svelte';
+</script>
 
-<header>
-    <img src="/images/title.png" alt="Rings of power logo" />
-</header>
+<svelte:head>
+    <title>Rings of power - characters page</title>
+</svelte:head>
 
-<nav>
-    <ul>
-        <li>
-            <a href="/">HOME</a>
-        </li>
-        <li>
-            <a href="/characters">CHARACTERS</a>
-        </li>
-    </ul>
-</nav>
+<Header />
 
-
+<Nav />
 
 <main>
     <div class="row">
@@ -130,10 +126,35 @@
     </div>
 </main>
 
+<Footer />
 
-<footer>
-    <hr>
-    <img src="/images/prime_logo.png" alt="Prime logo" />
-    <br>
-    The Rings of Power &copy; 2024
-</footer>
+<style>
+    .row {
+        padding: 0.5rem;
+        display: flex;
+    }
+
+    .col4 {
+        width: 25%;
+        padding: 0.2rem;
+        text-align: justify;
+    }
+
+    .col4 h3 {
+        letter-spacing: 0.4rem;
+    }
+
+    .col4 p, .col4 h3 {
+        padding: 0 1.5rem;
+        font-size: 1cqw;
+    }
+
+    .rounded_left {
+        border-radius: 20% 0 0 20%;
+    }
+
+
+    .rounded_right {
+        border-radius: 0 20% 20% 0;
+    }
+</style>

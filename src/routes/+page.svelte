@@ -1,26 +1,18 @@
+<script>
+    import Nav from '$lib/components/Nav.svelte';
+    import Header from '$lib/components/Header.svelte';
+    import Footer from '$lib/components/Footer.svelte';
+</script>
 
-<header>
-    <img src="/images/title.png" alt="Rings of power logo" />
-</header>
+<svelte:head>
+    <title>Rings of power - home page</title>
+</svelte:head>
 
-<nav>
-    <ul>
-        <li>
-            <a href="/">HOME</a>
-        </li>
-        <li>
-            <a href="/characters">CHARACTERS</a>
-        </li>
-    </ul>
-</nav>
+<Header />
+<Nav />
 
 <main>
     <img src="/images/homeimage.jpg" alt="Rings of power - splash image" />
 </main>
 
-<footer>
-    <hr>
-    <img src="/images/prime_logo.png" alt="Prime logo" />
-    <br>
-    The Rings of Power &copy; 2024
-</footer>
+<Footer />
