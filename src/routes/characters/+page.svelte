@@ -1,16 +1,6 @@
-<script>
-    import Nav from '$lib/components/Nav.svelte';
-    import Header from '$lib/components/Header.svelte';
-    import Footer from '$lib/components/Footer.svelte';
-</script>
-
 <svelte:head>
     <title>Rings of power - characters page</title>
 </svelte:head>
-
-<Header />
-
-<Nav />
 
 <main>
     <div class="row">
@@ -126,7 +116,6 @@
     </div>
 </main>
 
-<Footer />
 
 <style>
     .row {

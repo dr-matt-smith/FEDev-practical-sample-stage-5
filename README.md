@@ -513,7 +513,7 @@ The final step to complete the upgrade of our project to be a SvelteKit project 
 
 So add the following CSS rules (taken from `/css/main.css`) to the end of Svelte characters page (`/routes/characters/+page.svelte`):
 
-   ```html
+```html
    <style>
       .row {
          padding: 0.5rem;
@@ -544,6 +544,112 @@ So add the following CSS rules (taken from `/css/main.css`) to the end of Svelte
          border-radius: 0 20% 20% 0;
       }
    </style>
-   ```
+```
 
+## Simplifying page content by moving common elements to `/routes/+layout.svelte`
 
+Each page has a `<Header />`, `<Nav />` and `<Footer />` component.
+
+While this isn't lots of code to import them and declare where to include these components, when there is common structure for all website pages, we can delecare this in the special SvelteKit page `/routes/+layout.svelte`.
+
+In file `/routes/+layout.svelte`, let's add the important statements for our 3 components to the `<script>` element: 
+
+```html
+   <script>
+      import './layout.css';
+      import favicon from '$lib/assets/favicon.svg';
+      import Footer from "$lib/components/Footer.svelte";
+      import Nav from "$lib/components/Nav.svelte";
+      import Header from "$lib/components/Header.svelte";
+   
+      let { children } = $props();
+   </script>
+```
+
+It's the `{@render children()}` line that copies in all the page-unqiue content coming from the different `.svelte` pages of our website.
+
+So now let's declare the `{@render children()}` line between `<Header />`, `<Nav />` and `<Footer />`:
+
+```html
+   <Header />
+   <Nav />
+   
+   {@render children()}
+   
+   <Footer />
+```
+
+So our final version of  `/routes/+layout.svelte` will look as follows:
+
+```html
+   <script>
+      import './layout.css';
+      import favicon from '$lib/assets/favicon.svg';
+      import Footer from "$lib/components/Footer.svelte";
+      import Nav from "$lib/components/Nav.svelte";
+      import Header from "$lib/components/Header.svelte";
+   
+      let { children } = $props();
+   </script>
+   
+   <svelte:head><link rel="icon" href={favicon} /></svelte:head>
+   
+   <Header />
+   <Nav />
+   
+   {@render children()}
+   
+   <Footer />
+   
+   <style>
+      :global(body) {
+         background: url("/images/background.png") no-repeat center center fixed;
+         background-size: cover;
+   
+         color: white;
+         background-color: #a07a21;
+      }
+   </style>
+```
+
+Since these common components are now part of the default page structure for all website pages, so our home page (`/routes/+page.svelte`) code is a lot simpler:
+
+```html
+   <svelte:head>
+      <title>Rings of power - home page</title>
+   </svelte:head>
+   
+   <main>
+      <img src="/images/homeimage.jpg" alt="Rings of power - splash image" />
+   </main>
+```
+
+That's it! Our header, nav and footer components are all going to be automatically wrapped around the `<main>` element declated in `/routes/+page.svelte.
+
+Likewise, we can simplify the beginning and ending of our characters page (`/routes/characters/+page.svelte`):
+
+```html
+   <svelte:head>
+      <title>Rings of power - characters page</title>
+   </svelte:head>
+   
+   <main>
+      <div class="row">
+         <div class="col4">
+            <h3>
+               GALADRIEL
+            </h3>
+   
+            ... as before
+   </main>
+   
+   
+   <style>
+      .row {
+         padding: 0.5rem;
+         display: flex;
+      }
+   
+       ... as before
+   </style>
+```
